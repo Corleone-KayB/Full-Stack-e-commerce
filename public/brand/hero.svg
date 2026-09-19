@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <radialGradient id="g" cx="52%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#2A2A2E" />
+      <stop offset="60%" stop-color="#131315" />
+      <stop offset="100%" stop-color="#0A0A0B" />
+    </radialGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C8A96A" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#C8A96A" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#g)" />
+  <ellipse cx="600" cy="330" rx="520" ry="360" fill="url(#beam)" />
+  <g opacity="0.5" stroke="#C8A96A" stroke-width="0.6" fill="none">
+    <ellipse cx="600" cy="450" rx="120" ry="86" opacity="0.5" /><ellipse cx="600" cy="450" rx="182" ry="130" opacity="0.45" /><ellipse cx="600" cy="450" rx="244" ry="174" opacity="0.4" /><ellipse cx="600" cy="450" rx="306" ry="218" opacity="0.35" /><ellipse cx="600" cy="450" rx="368" ry="262" opacity="0.3" /><ellipse cx="600" cy="450" rx="430" ry="306" opacity="0.25" /><ellipse cx="600" cy="450" rx="492" ry="350" opacity="0.19999999999999996" /><ellipse cx="600" cy="450" rx="554" ry="394" opacity="0.14999999999999997" /><ellipse cx="600" cy="450" rx="616" ry="438" opacity="0.09999999999999998" />
+  </g>
+</svg>

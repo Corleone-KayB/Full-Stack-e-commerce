@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   AURUM — design tokens
+
+   Dark is the default because it is the more premium of the two treatments
+   for this catalogue: warm metal and glass read better against near-black.
+   Both themes are complete; nothing has a colour defined in only one of them.
+   ========================================================================== */
+
+:root {
+  /* Self-hosted via @fontsource — see src/app/layout.tsx. */
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif;
+
+  --canvas: 250 248 245;      /* ivory ground */
+  --surface: 255 255 255;     /* cards */
+  --elevated: 255 255 255;    /* modals, popovers */
+  --ink: 16 16 18;            /* primary text */
+  --muted: 92 92 100;         /* secondary text */
+  --faint: 140 140 148;       /* tertiary text, placeholders */
+  --hairline: 225 221 214;    /* borders */
+  --accent: 154 122 58;       /* champagne, darkened for AA on ivory */
+  --accent-soft: 244 236 220;
+  --accent-ink: 255 255 255;  /* text on accent */
+  --positive: 22 118 78;
+  --caution: 166 106 12;
+  --critical: 178 40 44;
+  --info: 40 88 158;
+
+  --shadow-color: 40 34 26;
+  color-scheme: light;
+}
+
+.dark {
+  --canvas: 10 10 11;
+  --surface: 22 22 24;
+  --elevated: 30 30 33;
+  --ink: 246 243 237;
+  --muted: 160 158 152;
+  --faint: 116 114 110;
+  --hairline: 44 44 48;
+  --accent: 200 169 106;      /* champagne */
+  --accent-soft: 43 37 26;
+  --accent-ink: 16 14 10;
+  --positive: 74 190 140;
+  --caution: 226 170 68;
+  --critical: 238 110 110;
+  --info: 122 166 232;
+
+  --shadow-color: 0 0 0;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink antialiased;
+    font-feature-settings: 'kern', 'liga', 'cv11';
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Focus is always visible and always the accent — never removed. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/70 ring-offset-2;
+    --tw-ring-offset-color: rgb(var(--canvas));
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.28);
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Honour the OS setting. Nothing animates for people who asked it not to. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-2xs font-medium uppercase tracking-[0.16em] text-muted;
+  }
+
+  .hairline {
+    @apply border-hairline;
+  }
+
+  .card-surface {
+    @apply rounded-lg border border-hairline bg-surface;
+  }
+
+  /* Understated metallic rule used to separate major sections. */
+  .rule-accent {
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      rgb(var(--accent) / 0.55),
+      transparent
+    );
+    height: 1px;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden bg-hairline/60;
+  }
+
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full;
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--ink) / 0.06),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Product imagery sits on its own warm ground in both themes so the
+     generated studio SVGs never float on a mismatched background. */
+  .product-ground {
+    background-image: radial-gradient(
+      120% 96% at 50% 12%,
+      rgb(var(--accent) / 0.10),
+      transparent 62%
+    );
+  }
+
+  .field {
+    @apply w-full rounded border border-hairline bg-surface px-3.5 py-2.5 text-sm text-ink
+           placeholder:text-faint transition-colors duration-150
+           focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/25
+           disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .field-invalid {
+    @apply border-critical/70 focus:border-critical focus:ring-critical/20;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Keeps long SKUs and order numbers from breaking layouts. */
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
