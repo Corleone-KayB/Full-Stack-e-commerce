@@ -15,7 +15,7 @@ import { getSettings } from '@/lib/settings';
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
-  const base = process.env.APP_URL ?? 'http://localhost:3000';
+  const base = process.env.APP_URL || 'http://localhost:3000';
 
   return {
     metadataBase: new URL(base),

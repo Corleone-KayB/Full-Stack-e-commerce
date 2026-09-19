@@ -31,7 +31,7 @@ export const POST = route(async (request) => {
   const owns = order.userId ? order.userId === user?.id : true;
   if (!owns && !user?.isAdmin) throw new AppError('FORBIDDEN', 'You cannot pay for this order.');
 
-  const origin = process.env.APP_URL ?? new URL(request.url).origin;
+  const origin = process.env.APP_URL || new URL(request.url).origin;
 
   const result = await initiatePayment({
     orderId: order.id,

@@ -38,7 +38,7 @@ export const POST = route(async (request) => {
       },
     });
 
-    const base = process.env.APP_URL ?? 'http://localhost:3000';
+    const base = process.env.APP_URL || 'http://localhost:3000';
     await queueNotification({
       templateKey: 'password.reset',
       to: user.email,

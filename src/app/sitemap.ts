@@ -9,7 +9,7 @@ import { prisma } from '@/lib/db';
  * Account, cart and checkout are excluded — they are noindex.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.APP_URL ?? 'http://localhost:3000';
+  const base = process.env.APP_URL || 'http://localhost:3000';
 
   const [products, series, categories, pages] = await Promise.all([
     prisma.product

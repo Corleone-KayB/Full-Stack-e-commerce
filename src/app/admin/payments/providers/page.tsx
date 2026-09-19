@@ -121,7 +121,7 @@ export default async function PaymentProvidersPage() {
                 <p className="mt-3 text-xs text-faint">
                   Callback URL to register with the provider:{' '}
                   <code className="rounded-xs bg-ink/6 px-1.5 py-0.5 font-mono">
-                    {process.env.APP_URL ?? 'https://your-domain'}/api/payments/webhook/{descriptor.id}
+                    {process.env.APP_URL || 'https://your-domain'}/api/payments/webhook/{descriptor.id}
                   </code>
                 </p>
               )}
