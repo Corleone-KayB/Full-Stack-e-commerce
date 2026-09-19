@@ -1,14 +1,63 @@
 # AURUM
 
-A production-grade e-commerce platform for selling devices. Storefront, cart,
+**A production-grade e-commerce platform for selling devices.** Storefront, cart,
 checkout, payments, customer accounts, and a complete admin — not a template,
 not a catalogue page with a "Buy" button that opens WhatsApp.
+
+### ▶ Live demo — **[full-stack-e-commerce-kabeho.vercel.app](https://full-stack-e-commerce-kabeho.vercel.app)**
+
+No signup, no setup. Browse → add to cart → check out with the sandbox wallet.
+
+**The payment sandbox is the thing to try.** Mobile-money payments are
+asynchronous — the customer confirms on their handset, and the outcome arrives
+seconds later over a webhook, or never arrives at all. This demo lets you drive
+every one of those branches from the checkout form: **the last digit of the
+phone number you enter picks the outcome.**
+
+| Enter a phone ending in | What happens |
+|---|---|
+| `…0` | Succeeds instantly |
+| `…1` | Succeeds after ~6 seconds — the realistic mobile-money case |
+| `…2` | Declined on the handset |
+| `…3` | Fails on insufficient funds |
+| `…4` | Never confirms, then expires |
+
+Try `…1` and `…4` — those are the two that break naive implementations.
+
+<sub>The live deployment is a public sandbox seeded with synthetic data and is
+reset periodically. Admin access to the live instance is available on request;
+the local seed below creates an admin account for you automatically.</sub>
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/storefront.png" width="49%" alt="AURUM storefront" />
+  <img src="docs/screenshots/product-detail.png" width="49%" alt="Product detail with variant selection and live stock" />
+</p>
+<p align="center">
+  <img src="docs/screenshots/checkout-momo.png" width="49%" alt="Checkout with mobile money selected" />
+  <img src="docs/screenshots/shop-filters.png" width="49%" alt="Shop with faceted filtering" />
+</p>
+
+<sub>Regenerate against the live deployment with `npm run screenshots`.</sub>
+
+---
+
+## Why this repo is worth a look
 
 It ships seeded with an iPhone catalogue (21 products, 120 SKUs) priced in AED,
 but nothing about phones is hard-coded. Categories, brands, series, attributes,
 variants, prices, imagery, delivery zones, currencies, coupons and copy are all
 database rows a merchant edits in the admin. Adding Samsung, Pixel, laptops,
 tablets or accessories is data entry, not a deployment.
+
+Three payment rails — **MTN Mobile Money**, **Airtel Money** and a
+Stripe-compatible hosted card checkout — sit behind one `PaymentProvider`
+interface, with signature-checked webhooks, deduplication and server-side
+verification before an order is ever marked paid. **170 unit and integration
+tests** (`npm test`) cover the money paths.
 
 ---
 
@@ -32,13 +81,11 @@ Or `npm run setup`, which is the three database steps in one.
 |---|---|
 | Storefront | http://localhost:3000 |
 | Admin | http://localhost:3000/admin |
-| Admin sign-in | `admin@aurum.store` / `ChangeMe!2026` (change in `.env` before seeding) |
+| Admin sign-in | `admin@aurum.store` / `ChangeMe!2026` &mdash; **local seed only**; set a strong `SEED_ADMIN_PASSWORD` in `.env` before seeding anything publicly reachable |
 
 Test payments work out of the box through the sandbox wallet — no credentials
-required. The outcome is chosen by the last digit of the phone number you
-enter: `…0` succeeds instantly, `…1` succeeds after about six seconds (the
-realistic mobile-money case), `…2` is declined on the handset, `…3` fails on
-funds, `…4` never confirms and expires.
+required. The outcome is chosen by the last digit of the phone number, exactly
+as in the live demo table at the top of this README.
 
 ## Commands
 
@@ -54,6 +101,7 @@ funds, `…4` never confirms and expires.
 | `npm run db:seed` | Seed catalogue, settings and demo orders |
 | `npm run db:reset` | Drop, recreate and reseed |
 | `npm run db:studio` | Prisma Studio |
+| `npm run screenshots` | Recapture `docs/screenshots/` from the live deployment |
 
 ## What is in it
 
